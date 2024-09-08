@@ -30,14 +30,13 @@ pipeline {
       }
     }
  
-
-    stage('Building image') {
+     stage('Building Image') {
       steps {
         script {
           dir("${SERVICE_NAME}") {
-          dockerImage = docker.build("${SERVICE_NAME}:v${BUILD}")
-          env.DOCKER_IMAGE = "${SERVICE_NAME}:v${BUILD}"
-          
+            dockerImage = docker.build("${SERVICE_NAME}:v${BUILD}")
+            env.DOCKER_IMAGE = "${SERVICE_NAME}:v${BUILD}"
+            echo "Built Docker image: ${env.DOCKER_IMAGE}"
           }
         }
       }
@@ -46,13 +45,18 @@ pipeline {
     stage('Deploy Image') {
       steps {
         script {
-          sh 'export DOCKER_CLIENT_TIMEOUT=300'
-          sh 'export COMPOSE_HTTP_TIMEOUT=300'
-          dir("${SERVICE_NAME}") {
-          docker.withRegistry('https://registry.hub.docker.com', 'dockerCreds') { 
-            def image = docker.image(env.DOCKER_IMAGE)
-            image.push()
-          }
+          // Docker client timeout settings
+          withEnv(['DOCKER_CLIENT_TIMEOUT=300', 'COMPOSE_HTTP_TIMEOUT=300']) {
+            dir("${SERVICE_NAME}") {
+              echo "Using Docker registry: https://registry.hub.docker.com"
+              echo "Docker image to push: ${env.DOCKER_IMAGE}"
+              docker.withRegistry('https://registry.hub.docker.com', 'dockerCreds') {
+                def image = docker.image(env.DOCKER_IMAGE)
+                echo "Pushing Docker image: ${env.DOCKER_IMAGE}"
+                image.push()
+                echo "Successfully pushed Docker image: ${env.DOCKER_IMAGE}"
+              }
+            }
           }
         }
       }
@@ -60,4 +64,35 @@ pipeline {
     // Optional stages for K8s deployment and cleanup can be uncommented if needed.
   }
 }
+
+
+//     stage('Building image') {
+//       steps {
+//         script {
+//           dir("${SERVICE_NAME}") {
+//           dockerImage = docker.build("${SERVICE_NAME}:v${BUILD}")
+//           env.DOCKER_IMAGE = "${SERVICE_NAME}:v${BUILD}"
+          
+//           }
+//         }
+//       }
+//     }
+
+//     stage('Deploy Image') {
+//       steps {
+//         script {
+//           sh 'export DOCKER_CLIENT_TIMEOUT=300'
+//           sh 'export COMPOSE_HTTP_TIMEOUT=300'
+//           dir("${SERVICE_NAME}") {
+//           docker.withRegistry('https://registry.hub.docker.com', 'dockerCreds') { 
+//             def image = docker.image(env.DOCKER_IMAGE)
+//             image.push()
+//           }
+//           }
+//         }
+//       }
+//     }
+//     // Optional stages for K8s deployment and cleanup can be uncommented if needed.
+//   }
+// }
 

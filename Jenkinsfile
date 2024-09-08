@@ -36,11 +36,12 @@ pipeline {
       steps {
         script {
          
-
-          docker.withRegistry("https://registry.hub.docker.com", 'dockerCreds'){
-            def customImage = docker.build("callmemzx/${SERVICE_NAME}:v${BUILD}")
-            customImage.push()
-            echo "Image has been pushed into dockerHub"
+          dir("${SERVICE_NAME}") {
+            docker.withRegistry("https://registry.hub.docker.com", 'dockerCreds'){
+              def customImage = docker.build("callmemzx/${SERVICE_NAME}:v${BUILD}")
+              customImage.push()
+              echo "Image has been pushed into dockerHub"
+            }
           }
           }
           

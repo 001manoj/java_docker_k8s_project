@@ -35,7 +35,7 @@ pipeline {
         script {
           dir("${SERVICE_NAME}") {
           dockerImage = docker.build("${SERVICE_NAME}:v${BUILD}")
-          echo {$dockerImage}
+          
           }
         }
       }

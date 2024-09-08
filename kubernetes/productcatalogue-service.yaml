@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: productcatalogue
-        image: callmemzx/productcatalogue:SR01
+        image: callmemzx/${SERVICE_NAME}:${BUILD}
         ports:
         - containerPort: 8020
         livenessProbe:

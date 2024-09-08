@@ -30,23 +30,23 @@ pipeline {
     }
  
 
-    // stage('Building image') {
-    //   steps {
-    //     script {
-    //       dockerImage = docker.build("${SERVICE_NAME}:v${BUILD}")
-    //     }
-    //   }
-    // }
+    stage('Building image') {
+      steps {
+        script {
+          dockerImage = docker.build("${SERVICE_NAME}:v${BUILD}")
+        }
+      }
+    }
 
-    // stage('Deploy Image') {
-    //   steps {
-    //     script {
-    //       docker.withRegistry('https://registry.hub.docker.com', 'dockerCreds') {  // Ensure credentialsId is correct
-    //         dockerImage.push()
-    //       }
-    //     }
-    //   }
-    // }
+    stage('Deploy Image') {
+      steps {
+        script {
+          docker.withRegistry('https://registry.hub.docker.com', 'dockerCreds') {  // Ensure credentialsId is correct
+            dockerImage.push()
+          }
+        }
+      }
+    }
     // Optional stages for K8s deployment and cleanup can be uncommented if needed.
   }
 }

@@ -16,6 +16,7 @@ pipeline {
       steps {
         script {
           echo 'Code Compile stage'
+          sh 'cd $SERVICE_NAME/'
           sh 'mvn clean install'
           sh "cp target/${SERVICE_NAME}*.jar ."
           sh "mv ${SERVICE_NAME}*.jar app.jar"

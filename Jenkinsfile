@@ -13,19 +13,20 @@ pipeline {
       }
     }
 
-    // stage('Code Compile') {
-    //   steps {
-    //     script {
-    //       echo 'Code Compile stage'
-    //       dir("${SERVICE_NAME}") {
-    //         sh 'cd $SERVICE_NAME/'
-    //         sh 'mvn clean install'
-    //         sh "cp target/${SERVICE_NAME}*.jar ."
-    //         sh "mv ${SERVICE_NAME}*.jar app.jar"
-    //       }
-    //     }
-    //   }
-    // }
+    stage('Code Compile') {
+      steps {
+        script {
+          echo 'Code Compile stage'
+          dir("${SERVICE_NAME}") {
+            sh 'ls -la'
+            sh 'mvn clean install'
+            sh "cp target/${SERVICE_NAME}*.jar ."
+            sh "mv ${SERVICE_NAME}*.jar app.jar"
+          }
+        }
+      }
+    }
+ 
 
     // stage('Building image') {
     //   steps {

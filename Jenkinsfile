@@ -5,6 +5,8 @@ pipeline {
     BUILD = "${params.BUILD}"
     PATH = "${JAVA_HOME}/bin:${env.PATH}" 
     JAVA_HOME = "/usr/lib/jvm/java-11-openjdk-11.0.24.0.8-3.0.1.el8.x86_64"
+    export DOCKER_CLIENT_TIMEOUT=300
+    export COMPOSE_HTTP_TIMEOUT=300
   }
   agent any
   stages {
@@ -35,6 +37,7 @@ pipeline {
         script {
           dir("${SERVICE_NAME}") {
           dockerImage = docker.build("${SERVICE_NAME}:v${BUILD}")
+          env.DOCKER_IMAGE = "${SERVICE_NAME}:v${BUILD}"
           
           }
         }
@@ -44,12 +47,9 @@ pipeline {
     stage('Deploy Image') {
       steps {
         script {
-          export DOCKER_CLIENT_TIMEOUT=300
-          export COMPOSE_HTTP_TIMEOUT=300
-
           dir("${SERVICE_NAME}") {
           docker.withRegistry('https://registry.hub.docker.com', 'dockerCreds') { 
-            def image = docker.image("${SERVICE_NAME}:v${BUILD}")
+            def image = docker.image(env.DOCKER_IMAGE)
             image.push()
           }
           }

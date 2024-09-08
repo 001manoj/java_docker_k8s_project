@@ -43,6 +43,9 @@ pipeline {
     stage('Deploy Image') {
       steps {
         script {
+          export DOCKER_CLIENT_TIMEOUT=300
+          export COMPOSE_HTTP_TIMEOUT=300
+
           dir("${SERVICE_NAME}") {
           docker.withRegistry('https://registry.hub.docker.com', 'dockerCreds') {  // Ensure credentialsId is correct
             dockerImage.push()

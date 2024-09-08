@@ -34,8 +34,8 @@ pipeline {
       steps {
         script {
           dir("${SERVICE_NAME}") {
-            dockerImage = docker.build("${SERVICE_NAME}:v${BUILD}")
-            env.DOCKER_IMAGE = "${SERVICE_NAME}:v${BUILD}"
+            dockerImage = docker.build("callmemzx/${SERVICE_NAME}:v${BUILD}")
+            env.DOCKER_IMAGE = "callmemzx/${SERVICE_NAME}:v${BUILD}"
             echo "Built Docker image: ${env.DOCKER_IMAGE}"
           }
         }

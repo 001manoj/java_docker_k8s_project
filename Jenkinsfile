@@ -35,6 +35,7 @@ pipeline {
         script {
           dir("${SERVICE_NAME}") {
           dockerImage = docker.build("${SERVICE_NAME}:v${BUILD}")
+          echo {$dockerImage}
           }
         }
       }
@@ -47,8 +48,9 @@ pipeline {
           export COMPOSE_HTTP_TIMEOUT=300
 
           dir("${SERVICE_NAME}") {
-          docker.withRegistry('https://registry.hub.docker.com', 'dockerCreds') {  // Ensure credentialsId is correct
-            dockerImage.push()
+          docker.withRegistry('https://registry.hub.docker.com', 'dockerCreds') { 
+            def image = docker.image("${SERVICE_NAME}:v${BUILD}")
+            image.push()
           }
           }
         }

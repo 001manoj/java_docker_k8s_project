@@ -53,7 +53,7 @@ pipeline {
         script {
           // sh "sed -i 's,TEST_IMAGE_NAME,harshmanvar/node-web-app:$BUILD_NUMBER,' deployment.yaml"
           sh "sed -i 's|image:.*|image: callmemzx/${SERVICE_NAME}:${BUILD}|g' kubernetes/${SERVICE_NAME}-service.yaml"
-          sh "kubectl --kubeconfig=/var/lib/jenkins/config apply -f kubernetes/${SERVICE_NAME}-service.yaml"
+          sh "kubectl --kubeconfig=/var/lib/jenkins/.kube/config apply -f kubernetes/${SERVICE_NAME}-service.yaml"
         }
       }
     }

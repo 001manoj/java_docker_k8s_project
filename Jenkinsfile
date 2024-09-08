@@ -33,7 +33,9 @@ pipeline {
     stage('Building image') {
       steps {
         script {
+          dir("${SERVICE_NAME}") {
           dockerImage = docker.build("${SERVICE_NAME}:v${BUILD}")
+          }
         }
       }
     }
@@ -41,8 +43,10 @@ pipeline {
     stage('Deploy Image') {
       steps {
         script {
+          dir("${SERVICE_NAME}") {
           docker.withRegistry('https://registry.hub.docker.com', 'dockerCreds') {  // Ensure credentialsId is correct
             dockerImage.push()
+          }
           }
         }
       }

@@ -3,6 +3,7 @@ pipeline {
     SERVICE_NAME = "${params.SERVICE_NAME}"
     NAMESPACE = "${params.NAMESPACE}"
     BUILD = "${params.BUILD}"
+    PATH = "${JAVA_HOME}/bin:${env.PATH}" 
     JAVA_HOME = "/usr/lib/jvm/java-11-openjdk-11.0.24.0.8-3.0.1.el8.x86_64"
   }
   agent any

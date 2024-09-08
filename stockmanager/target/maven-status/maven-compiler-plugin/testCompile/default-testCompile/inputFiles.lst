@@ -1,0 +1,3 @@
+/root/java_docker_k8s_project/stockmanager/src/test/java/functional/FunctionalTests.java
+/root/java_docker_k8s_project/stockmanager/src/test/java/functional/RestStepDefs.java
+/root/java_docker_k8s_project/stockmanager/src/test/java/uk/co/danielbryant/djshopping/stockmanager/ShopfrontApplicationTests.java

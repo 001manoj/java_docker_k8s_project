@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: productcatalogue
-        image: thetips4you/productcatalogue:latest
+        image: callmemzx/productcatalogue:SR01
         ports:
         - containerPort: 8020
         livenessProbe:
